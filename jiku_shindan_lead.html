@@ -1,0 +1,510 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+.page{padding:1.5rem 0}
+.step{display:none}.step.active{display:block}
+
+.brand{text-align:center;padding:2rem 0 0.5rem}
+.brand-title{font-size:28px;font-weight:500;letter-spacing:0.18em;color:var(--color-text-primary);font-family:var(--font-serif)}
+.brand-sub{font-size:11px;letter-spacing:0.22em;color:var(--color-text-tertiary);margin-top:6px;text-transform:uppercase}
+.brand-desc{font-size:14px;color:var(--color-text-secondary);line-height:1.8;margin-top:16px;max-width:420px;margin-left:auto;margin-right:auto;text-align:center}
+
+.divider{width:32px;height:1px;background:var(--color-border-secondary);margin:20px auto}
+
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem 1.5rem;margin-bottom:12px}
+
+.flabel{display:block;font-size:12px;color:var(--color-text-tertiary);letter-spacing:0.1em;margin-bottom:6px;font-weight:500}
+.fgroup{margin-bottom:1.25rem}
+.frow2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.frow3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+
+.btn-main{width:100%;padding:13px;font-size:14px;font-weight:500;background:var(--color-text-primary);color:var(--color-background-primary);border:none;border-radius:var(--border-radius-md);cursor:pointer;letter-spacing:0.08em;margin-top:4px}
+.btn-main:hover{opacity:0.82}
+.btn-line{width:100%;padding:13px;font-size:14px;font-weight:500;background:#06C755;color:#fff;border:none;border-radius:var(--border-radius-md);cursor:pointer;letter-spacing:0.06em;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-line:hover{opacity:0.88}
+.btn-session{width:100%;padding:13px;font-size:14px;font-weight:500;background:var(--color-text-primary);color:var(--color-background-primary);border:none;border-radius:var(--border-radius-md);cursor:pointer;letter-spacing:0.06em;margin-top:8px}
+.btn-session:hover{opacity:0.82}
+.btn-ghost{width:100%;padding:10px;font-size:13px;background:transparent;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);cursor:pointer;color:var(--color-text-secondary);margin-top:8px}
+.btn-ghost:hover{background:var(--color-background-secondary)}
+
+.errmsg{font-size:12px;color:var(--color-text-danger);margin-top:6px;display:none}
+
+.loading-wrap{text-align:center;padding:3rem 0}
+.loading-ring{width:40px;height:40px;border:1.5px solid var(--color-border-tertiary);border-top-color:var(--color-text-primary);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 20px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-txt{font-size:13px;color:var(--color-text-secondary);letter-spacing:0.1em}
+.loading-name{font-size:16px;font-weight:500;color:var(--color-text-primary);margin-bottom:8px;font-family:var(--font-serif)}
+
+.type-hero{text-align:center;padding:1.5rem 0 1rem}
+.type-badge{display:inline-block;font-size:11px;letter-spacing:0.18em;color:var(--color-text-tertiary);background:var(--color-background-secondary);padding:5px 14px;border-radius:20px;margin-bottom:12px}
+.type-name{font-size:24px;font-weight:500;color:var(--color-text-primary);font-family:var(--font-serif);line-height:1.4;margin-bottom:8px}
+.type-catch{font-size:14px;color:var(--color-text-secondary);line-height:1.8}
+
+.pillar-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:1rem 0}
+.pillar{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 6px;text-align:center;border:0.5px solid var(--color-border-tertiary)}
+.p-name{font-size:10px;color:var(--color-text-tertiary);margin-bottom:6px;letter-spacing:0.1em}
+.p-kan{font-size:20px;font-weight:500;color:var(--color-text-primary);font-family:var(--font-serif);line-height:1.2}
+.p-shi{font-size:16px;color:var(--color-text-secondary);font-family:var(--font-serif)}
+.p-hidden{color:var(--color-text-tertiary);font-size:12px;padding-top:8px}
+
+.preview-item{padding:14px 0;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;gap:12px;align-items:flex-start}
+.preview-item:last-child{border-bottom:none}
+.pi-icon{width:30px;height:30px;border-radius:50%;background:var(--color-background-secondary);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px}
+.pi-label{font-size:11px;color:var(--color-text-tertiary);margin-bottom:3px;letter-spacing:0.08em}
+.pi-val{font-size:14px;font-weight:500;color:var(--color-text-primary)}
+.pi-desc{font-size:13px;color:var(--color-text-secondary);line-height:1.7;margin-top:2px}
+
+.lock-wall{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.5rem;text-align:center;margin:1rem 0}
+.lock-icon{font-size:22px;color:var(--color-text-tertiary);margin-bottom:10px}
+.lock-title{font-size:15px;font-weight:500;color:var(--color-text-primary);margin-bottom:6px}
+.lock-desc{font-size:13px;color:var(--color-text-secondary);line-height:1.8;margin-bottom:16px}
+.lock-items{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:16px;text-align:left}
+.lock-item{font-size:12px;color:var(--color-text-secondary);padding:8px 10px;background:var(--color-background-primary);border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);display:flex;gap:6px;align-items:center}
+
+.full-section{margin-top:1rem}
+.sec-label{font-size:11px;letter-spacing:0.18em;color:var(--color-text-tertiary);text-transform:uppercase;margin-bottom:10px;margin-top:1.5rem}
+
+.score-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.score-name{font-size:13px;color:var(--color-text-secondary);width:80px;flex-shrink:0}
+.score-track{flex:1;height:5px;background:var(--color-background-secondary);border-radius:3px;overflow:hidden}
+.score-fill{height:100%;background:var(--color-text-primary);border-radius:3px;transition:width 1.2s ease}
+.score-num{font-size:12px;color:var(--color-text-tertiary);width:28px;text-align:right}
+
+.phase-card{padding:14px 16px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);margin-bottom:8px}
+.phase-tag{display:inline-block;font-size:10px;letter-spacing:0.12em;padding:3px 9px;border-radius:20px;background:var(--color-background-secondary);color:var(--color-text-tertiary);margin-bottom:8px}
+.phase-title{font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px}
+.phase-desc{font-size:13px;color:var(--color-text-secondary);line-height:1.7}
+
+.partner-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.partner-c{padding:14px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);text-align:center}
+.partner-lbl{font-size:11px;color:var(--color-text-tertiary);margin-bottom:5px}
+.partner-val{font-size:13px;font-weight:500;color:var(--color-text-primary);line-height:1.5}
+
+.action-list{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:1rem 1.25rem}
+.action-item{display:flex;gap:10px;padding:7px 0;font-size:13px;color:var(--color-text-secondary);line-height:1.6;border-bottom:0.5px solid var(--color-border-tertiary)}
+.action-item:last-child{border-bottom:none}
+.action-n{font-weight:500;color:var(--color-text-primary);flex-shrink:0;width:18px}
+
+.session-box{border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-lg);padding:1.25rem 1.5rem;margin-top:1.25rem;text-align:center}
+.session-title{font-size:16px;font-weight:500;color:var(--color-text-primary);font-family:var(--font-serif);margin-bottom:8px}
+.session-desc{font-size:13px;color:var(--color-text-secondary);line-height:1.8;margin-bottom:16px}
+.session-features{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:16px;text-align:left}
+.sf-item{font-size:12px;color:var(--color-text-secondary);display:flex;gap:6px;align-items:flex-start;line-height:1.5}
+.price-note{font-size:12px;color:var(--color-text-tertiary);margin-top:8px}
+
+.note-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px 14px;font-size:12px;color:var(--color-text-tertiary);line-height:1.7;margin-top:1rem;display:flex;gap:8px}
+
+.line-form{background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:1.5rem;margin:1rem 0}
+.lf-title{font-size:15px;font-weight:500;color:var(--color-text-primary);margin-bottom:6px}
+.lf-desc{font-size:13px;color:var(--color-text-secondary);line-height:1.8;margin-bottom:16px}
+.lf-input{margin-bottom:10px}
+.privacy-row{display:flex;align-items:flex-start;gap:8px;margin:12px 0;font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+.privacy-row input{width:14px;height:14px;flex-shrink:0;margin-top:2px;accent-color:var(--color-text-primary)}
+</style>
+
+<h2 class="sr-only">軸 -JIKU- あなたの本質と使命を読み解く診断。生年月日を入力して気質タイプを算出、LINE登録で詳細レポートを受け取れます。</h2>
+
+<div class="page">
+
+<div id="s-input" class="step active">
+  <div class="brand">
+    <div class="brand-title">軸 &nbsp;-JIKU-</div>
+    <div class="brand-sub">Your Core · Your Mission</div>
+    <div class="divider"></div>
+    <p class="brand-desc">生まれ持った命式から、あなたの本質と<br>パートナーシップの軸を読み解きます</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="card">
+    <div class="fgroup">
+      <label class="flabel">ニックネーム</label>
+      <input type="text" id="nickname" placeholder="例：はなこ、Yuki…">
+    </div>
+    <div class="fgroup">
+      <label class="flabel">生年月日</label>
+      <div class="frow3">
+        <input type="number" id="byear" placeholder="年 (例:1985)" min="1930" max="2005" style="font-size:13px">
+        <select id="bmonth" style="font-size:13px">
+          <option value="">月</option>
+          <option value="1">1月</option><option value="2">2月</option><option value="3">3月</option>
+          <option value="4">4月</option><option value="5">5月</option><option value="6">6月</option>
+          <option value="7">7月</option><option value="8">8月</option><option value="9">9月</option>
+          <option value="10">10月</option><option value="11">11月</option><option value="12">12月</option>
+        </select>
+        <select id="bday" style="font-size:13px"><option value="">日</option></select>
+      </div>
+    </div>
+    <div class="fgroup">
+      <label class="flabel">性別</label>
+      <div class="frow2">
+        <label style="display:flex;align-items:center;gap:8px;font-size:14px;color:var(--color-text-secondary);cursor:pointer;padding:10px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md)" id="g-f-lbl">
+          <input type="radio" name="gender" value="female" id="g-f" style="accent-color:var(--color-text-primary);width:15px;height:15px"> 女性
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:14px;color:var(--color-text-secondary);cursor:pointer;padding:10px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md)" id="g-m-lbl">
+          <input type="radio" name="gender" value="male" id="g-m" style="accent-color:var(--color-text-primary);width:15px;height:15px"> 男性
+        </label>
+      </div>
+    </div>
+    <p class="errmsg" id="err1">すべての項目を入力してください</p>
+    <button class="btn-main" onclick="startDiag()">軸を読み解く →</button>
+  </div>
+
+  <div class="note-box">
+    <i class="ti ti-lock" style="font-size:15px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>
+    <span>入力いただいた情報は診断目的のみに使用し、第三者への提供は行いません</span>
+  </div>
+</div>
+
+<div id="s-loading" class="step">
+  <div class="loading-wrap">
+    <div class="loading-ring"></div>
+    <div class="loading-name" id="l-name"></div>
+    <div class="loading-txt" id="l-msg">命式を算出しています</div>
+  </div>
+</div>
+
+<div id="s-preview" class="step">
+  <div class="type-hero">
+    <div class="type-badge" id="prev-elem-badge">五行タイプ</div>
+    <div class="type-name" id="prev-type-name"></div>
+    <div class="type-catch" id="prev-catch"></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="card">
+    <div style="font-size:11px;letter-spacing:0.15em;color:var(--color-text-tertiary);margin-bottom:10px">命式</div>
+    <div class="pillar-row" id="prev-pillars"></div>
+  </div>
+
+  <div class="card">
+    <div class="preview-item">
+      <div class="pi-icon"><i class="ti ti-droplet" aria-hidden="true"></i></div>
+      <div>
+        <div class="pi-label">本質の気</div>
+        <div class="pi-val" id="prev-elem"></div>
+        <div class="pi-desc" id="prev-elem-desc"></div>
+      </div>
+    </div>
+    <div class="preview-item">
+      <div class="pi-icon"><i class="ti ti-eye" aria-hidden="true"></i></div>
+      <div>
+        <div class="pi-label">日支の特性</div>
+        <div class="pi-val" id="prev-shi-title"></div>
+        <div class="pi-desc" id="prev-shi-desc"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lock-wall">
+    <div class="lock-icon"><i class="ti ti-lock" aria-hidden="true"></i></div>
+    <div class="lock-title">詳細レポートはLINEで受け取れます</div>
+    <div class="lock-desc">以下の項目は、LINE登録後に全文を解放します</div>
+    <div class="lock-items">
+      <div class="lock-item"><i class="ti ti-lock" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i>パートナーシップ傾向</div>
+      <div class="lock-item"><i class="ti ti-lock" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i>気質スコア詳細</div>
+      <div class="lock-item"><i class="ti ti-lock" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i>今年のバイオリズム</div>
+      <div class="lock-item"><i class="ti ti-lock" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i>相性の良い相手像</div>
+    </div>
+    <button class="btn-line" onclick="goLine()">
+      <span style="font-size:16px;font-weight:700">L</span>
+      <span>LINEで続きを受け取る（無料）</span>
+    </button>
+  </div>
+
+  <button class="btn-ghost" onclick="reset()">← 最初からやり直す</button>
+</div>
+
+<div id="s-line" class="step">
+  <div class="brand" style="padding-bottom:0">
+    <div class="brand-title" style="font-size:20px">もう少しで完成です</div>
+    <div class="divider"></div>
+  </div>
+
+  <div class="line-form">
+    <div class="lf-title">レポートを受け取る</div>
+    <div class="lf-desc">お名前とメールアドレスを入力すると、<br>詳細レポートをお届けします</div>
+    <div class="lf-input">
+      <label class="flabel">お名前</label>
+      <input type="text" id="fullname" placeholder="山田 花子">
+    </div>
+    <div class="lf-input">
+      <label class="flabel">メールアドレス</label>
+      <input type="email" id="email" placeholder="example@mail.com">
+    </div>
+    <div class="privacy-row">
+      <input type="checkbox" id="priv">
+      <label for="priv">プライバシーポリシーに同意して、レポートとサービスのご案内を受け取ります</label>
+    </div>
+    <p class="errmsg" id="err2">すべての項目をご入力・同意ください</p>
+    <button class="btn-line" onclick="submitLine()" style="margin-top:4px">
+      <span style="font-size:16px;font-weight:700">L</span>
+      <span>LINEに連携してレポートを受け取る</span>
+    </button>
+  </div>
+
+  <button class="btn-ghost" onclick="showStep('s-preview')">← 診断結果に戻る</button>
+</div>
+
+<div id="s-full" class="step">
+  <div class="type-hero" style="padding-top:0.5rem">
+    <div class="type-badge" id="full-badge">詳細レポート</div>
+    <div class="type-name" id="full-type"></div>
+    <div class="type-catch" id="full-catch"></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="full-section">
+    <div class="sec-label">気質スコア</div>
+    <div class="card" style="padding-bottom:0.75rem">
+      <div id="scores-wrap"></div>
+    </div>
+
+    <div class="sec-label">パートナーシップ傾向</div>
+    <div class="card" id="partner-trend"></div>
+
+    <div class="sec-label">バイオリズム — 現在のフェーズ</div>
+    <div id="phases-wrap"></div>
+
+    <div class="sec-label">相性の良い相手像</div>
+    <div class="partner-grid" id="partner-grid"></div>
+
+    <div class="sec-label">今年の行動指針</div>
+    <div class="action-list" id="actions-wrap"></div>
+
+    <div class="session-box">
+      <div class="session-title">あなたの命式をもとに、<br>1対1で深掘りする</div>
+      <div class="session-desc">診断では読み切れない「本質」と「これからの方向性」を、専任カウンセラーとのセッションで一緒に解き明かします</div>
+      <div class="session-features">
+        <div class="sf-item"><i class="ti ti-check" style="font-size:14px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>命式の詳細解説（格局・用神）</div>
+        <div class="sf-item"><i class="ti ti-check" style="font-size:14px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>恋愛・婚活パターンの深掘り</div>
+        <div class="sf-item"><i class="ti ti-check" style="font-size:14px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>今後1〜3年の運気マップ</div>
+        <div class="sf-item"><i class="ti ti-check" style="font-size:14px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>パートナー選定の具体的基準</div>
+      </div>
+      <button class="btn-session" onclick="sendPrompt('有料セッションについて詳しく教えてください')">セッションに申し込む ↗</button>
+      <div class="price-note">初回セッション 90分 ／ 完全個別対応</div>
+    </div>
+  </div>
+
+  <button class="btn-ghost" onclick="reset()">← もう一度診断する</button>
+</div>
+
+</div>
+
+<script>
+const KAN=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+const SHI=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+const KAN_E=['木','木','火','火','土','土','金','金','水','水'];
+const KAN_Y=['陽','陰','陽','陰','陽','陰','陽','陰','陽','陰'];
+
+const TYPES={
+  '木陽':{name:'成長の木 — 陽',catch:'人を育て、未来を切り拓く力を持つ'},
+  '木陰':{name:'受容の木 — 陰',catch:'深く根を張り、静かに人を包み込む存在'},
+  '火陽':{name:'情熱の炎 — 陽',catch:'輝きで人を惹きつけ、場を温める'},
+  '火陰':{name:'優しい炎 — 陰',catch:'内なる情熱で、深い繋がりを育てる'},
+  '土陽':{name:'大地の柱 — 陽',catch:'揺るぎない誠実さで、信頼を積み上げる'},
+  '土陰':{name:'豊かな大地 — 陰',catch:'温かさと包容力で、人を安心させる'},
+  '金陽':{name:'鋭利な金 — 陽',catch:'高い意志と美意識で、本質を貫く'},
+  '金陰':{name:'磨かれた金 — 陰',catch:'細部まで丁寧に、深い価値を創る'},
+  '水陽':{name:'大河の流れ — 陽',catch:'知恵と洞察で、人生を深く読み解く'},
+  '水陰':{name:'静水の知性 — 陰',catch:'静かな直感で、本質的な繋がりを求める'}
+};
+
+const ELEM_DESC={
+  '木':'成長と発展の気。思いやりと向上心があり、人を育てることに長けています。',
+  '火':'情熱と表現の気。感受性豊かで人を惹きつける華があります。',
+  '土':'安定と信頼の気。誠実で責任感が強く、長期的な関係を大切にします。',
+  '金':'決断と完結の気。高い理想を持ち、本物の関係を妥協なく求めます。',
+  '水':'知恵と柔軟の気。洞察力が鋭く、深い精神的繋がりを求めます。'
+};
+
+const SHI_T={
+  '子':['機知と探求心','知的な繋がりを大切にし、好奇心で関係を深めます'],
+  '丑':['堅実と誠実さ','一度決めたら揺るがない、約束を守る誠実さが魅力'],
+  '寅':['勇気と行動力','リーダーシップがあり、パートナーを引っ張る積極性'],
+  '卯':['温かさと芸術性','繊細で感性豊か。穏やかな関係性を丁寧に育みます'],
+  '辰':['カリスマと直感','存在感があり、直感で人の本質を見抜きます'],
+  '巳':['知性と洞察力','深い思慮で本質を捉え、表面でなく心で繋がります'],
+  '午':['情熱と自由','エネルギッシュで深い愛情を持ちながら、自由を大切に'],
+  '未':['優しさと思いやり','相手を思いやる優しさで、関係を温かく包みます'],
+  '申':['機転と革新性','どんな状況でも打開策を見つけ、関係を前進させます'],
+  '酉':['完璧主義と美意識','理想の関係を丁寧に育て、細部まで大切にします'],
+  '戌':['忠誠心と義理','信頼と誠実さを何より大切にする、義理堅いパートナー'],
+  '亥':['純粋と包容力','純粋な心と深い包容力で、パートナーを包みます']
+};
+
+const PARTNER_TREND={
+  '木':'自立しながらも深く寄り添える関係を求めます。相手の成長を応援し、一緒に高め合えるパートナーシップが理想。表面的な条件より「一緒にいて伸びられるか」を重視します。',
+  '火':'感情の共鳴を大切にします。情熱的に愛し、相手にも同じ熱量を求める傾向があります。安心して感情を出し合える、率直な関係が最も輝けます。',
+  '土':'安定と誠実さを軸に関係を築きます。急がず、じっくりと信頼を積み上げるプロセスを大切にします。「変わらずにいてくれる」安心感を何より重視します。',
+  '金':'妥協なく本物を求めます。表面的な関係には満足できず、価値観や美意識が合う相手との深い繋がりを求めます。自分の軸を大切にしながら関係を育てます。',
+  '水':'直感と洞察で相手の本質を見抜きます。言葉より空気感で繋がれる関係を好み、知的に刺激し合えるパートナーシップが理想です。'
+};
+
+function calcKan(y,m,d){const b=new Date(2000,0,1),t=new Date(y,m-1,d),diff=Math.floor((t-b)/86400000);return((diff%10)+10)%10}
+function calcShi(y,m,d){const b=new Date(2000,0,1),t=new Date(y,m-1,d),diff=Math.floor((t-b)/86400000);return((diff%12)+12)%12}
+function getYK(y){return((y-4)%10+10)%10}
+function getYS(y){return((y-4)%12+12)%12}
+function getMK(y,m){return((getYK(y)%5)*2+(m-1))%10}
+function getMS(m){return((m+1)%12)}
+
+function popDays(){
+  const y=parseInt(document.getElementById('byear').value)||2000;
+  const m=parseInt(document.getElementById('bmonth').value)||1;
+  const n=new Date(y,m,0).getDate();
+  const sel=document.getElementById('bday');
+  const cur=parseInt(sel.value);
+  sel.innerHTML='<option value="">日</option>';
+  for(let i=1;i<=n;i++){const o=document.createElement('option');o.value=i;o.textContent=i+'日';if(i===cur)o.selected=true;sel.appendChild(o);}
+}
+document.getElementById('bmonth').addEventListener('change',popDays);
+document.getElementById('byear').addEventListener('change',popDays);
+popDays();
+
+let diagData={};
+
+function showStep(id){
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function startDiag(){
+  const nick=document.getElementById('nickname').value.trim();
+  const y=parseInt(document.getElementById('byear').value);
+  const m=parseInt(document.getElementById('bmonth').value);
+  const d=parseInt(document.getElementById('bday').value);
+  const g=document.querySelector('input[name="gender"]:checked');
+  if(!nick||!y||!m||!d||!g||y<1930||y>2005){document.getElementById('err1').style.display='block';return;}
+  document.getElementById('err1').style.display='none';
+
+  const yk=getYK(y),ys=getYS(y);
+  const mk=getMK(y,m),ms=getMS(m);
+  const dk=calcKan(y,m,d),ds=calcShi(y,m,d);
+  const elem=KAN_E[dk],yin=KAN_Y[dk];
+  const typeKey=elem+yin;
+  const type=TYPES[typeKey]||{name:elem+'の気質',catch:ELEM_DESC[elem]};
+  const shiT=SHI_T[SHI[ds]];
+  const partnerElem={'木':['火','土'],'火':['土','木'],'土':['金','火'],'金':['水','土'],'水':['木','金']}[elem];
+  const scores={
+    '自己表現力':Math.min(95,55+((dk+ds)%4)*10),
+    '共感力':Math.min(95,60+((yk+ys)%4)*9),
+    '安定志向':Math.min(95,50+((mk+ms)%4)*11),
+    '行動力':Math.min(95,45+((dk*2+ds)%5)*10),
+    '直感力':Math.min(95,52+((ys+ms)%5)*9)
+  };
+  diagData={nick,y,m,d,yk,ys,mk,ms,dk,ds,elem,yin,typeKey,type,shiT,partnerElem,scores,gender:g.value};
+
+  showStep('s-loading');
+  document.getElementById('l-name').textContent=nick+'さんの命式を算出しています';
+  const msgs=['十干・十二支を配置しています','五行バランスを解析しています','パートナーシップ傾向を読み解いています','軸を照らしています'];
+  let i=0;
+  const iv=setInterval(()=>{
+    i++;
+    if(i<msgs.length)document.getElementById('l-msg').textContent=msgs[i];
+    if(i>=msgs.length){clearInterval(iv);showPreview();}
+  },700);
+}
+
+function showPreview(){
+  const D=diagData;
+  document.getElementById('prev-elem-badge').textContent=D.elem+'の気質 — '+D.yin;
+  document.getElementById('prev-type-name').textContent=D.type.name;
+  document.getElementById('prev-catch').textContent=D.type.catch;
+  document.getElementById('prev-elem').textContent=D.elem+'（'+KAN[D.dk]+'）— '+D.yin;
+  document.getElementById('prev-elem-desc').textContent=ELEM_DESC[D.elem];
+  document.getElementById('prev-shi-title').textContent=SHI[D.ds]+'（'+D.shiT[0]+'）';
+  document.getElementById('prev-shi-desc').textContent=D.shiT[1];
+
+  const pillars=[
+    {name:'年柱',k:D.yk,s:D.ys},
+    {name:'月柱',k:D.mk,s:D.ms},
+    {name:'日柱',k:D.dk,s:D.ds},
+    {name:'時柱',hidden:true}
+  ];
+  document.getElementById('prev-pillars').innerHTML=pillars.map(p=>p.hidden?
+    `<div class="pillar"><div class="p-name">${p.name}</div><div class="p-hidden">不明</div></div>`:
+    `<div class="pillar"><div class="p-name">${p.name}</div><div class="p-kan">${KAN[p.k]}</div><div class="p-shi">${SHI[p.s]}</div></div>`
+  ).join('');
+
+  showStep('s-preview');
+}
+
+function goLine(){showStep('s-line');}
+
+function submitLine(){
+  const name=document.getElementById('fullname').value.trim();
+  const email=document.getElementById('email').value.trim();
+  const priv=document.getElementById('priv').checked;
+  const emailOk=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if(!name||!emailOk||!priv){document.getElementById('err2').style.display='block';return;}
+  document.getElementById('err2').style.display='none';
+  diagData.fullname=name;diagData.email=email;
+  showFull();
+}
+
+function showFull(){
+  const D=diagData;
+  document.getElementById('full-badge').textContent=D.elem+'の気質 — 詳細レポート';
+  document.getElementById('full-type').textContent=D.type.name;
+  document.getElementById('full-catch').textContent=D.nick+'さんの軸が見えました';
+
+  document.getElementById('scores-wrap').innerHTML=Object.entries(D.scores).map(([k,v])=>`
+    <div class="score-row">
+      <div class="score-name">${k}</div>
+      <div class="score-track"><div class="score-fill" style="width:0%" data-w="${v}%"></div></div>
+      <div class="score-num">${v}</div>
+    </div>`).join('');
+
+  document.getElementById('partner-trend').innerHTML=`
+    <div class="preview-item" style="border:none;padding:0">
+      <div class="pi-icon"><i class="ti ti-heart" aria-hidden="true"></i></div>
+      <div>
+        <div class="pi-label">パートナーシップ傾向</div>
+        <div class="pi-desc" style="font-size:14px;line-height:1.9">${PARTNER_TREND[D.elem]}</div>
+      </div>
+    </div>`;
+
+  const phases=[
+    {tag:'大運フェーズ',title:D.elem==='水'||D.elem==='金'?'深化期 — 内なる成熟の時':'充実期 — 実りを迎える時',desc:'現在はあなたの本質が最も輝きやすいフェーズです。自己理解を深め、行動に移すことで縁が引き寄せられます。'},
+    {tag:'2025年 流年',title:'関係性の再構築と深化',desc:'今年は既存のパターンを手放し、本質的な繋がりへと進化する年。出会いの数より自分の「軸」を整えることで、相応しい縁が動き始めます。'},
+    {tag:'後半期（7〜12月）',title:'前進の好機 — 動くことで縁が開く',desc:'秋以降は行動に移す力が高まります。自分の気持ちを正直に表現し、一歩踏み出すことで関係が動き始めるタイミングです。'}
+  ];
+  document.getElementById('phases-wrap').innerHTML=phases.map(p=>`
+    <div class="phase-card">
+      <div class="phase-tag">${p.tag}</div>
+      <div class="phase-title">${p.title}</div>
+      <div class="phase-desc">${p.desc}</div>
+    </div>`).join('');
+
+  const pShi=SHI[(D.ds+4)%12],pShi2=SHI[(D.ds+8)%12];
+  document.getElementById('partner-grid').innerHTML=`
+    <div class="partner-c"><div class="partner-lbl">五行の相性</div><div class="partner-val">${D.partnerElem[0]}・${D.partnerElem[1]}気質の方</div></div>
+    <div class="partner-c"><div class="partner-lbl">地支の相合</div><div class="partner-val">${pShi}・${pShi2}年生まれ</div></div>`;
+
+  const actions=[
+    `${D.elem}の本質「${ELEM_DESC[D.elem].split('。')[0]}」を活かした自己表現を意識する`,
+    '恋愛パターンの言語化ワークに取り組み、繰り返してきた習慣を手放す',
+    '今秋以降、直感で動ける準備を整えておく。縁は「整った人」のところに来る'
+  ];
+  document.getElementById('actions-wrap').innerHTML=actions.map((a,i)=>`
+    <div class="action-item"><div class="action-n">${i+1}</div><div>${a}</div></div>`).join('');
+
+  showStep('s-full');
+  setTimeout(()=>{
+    document.querySelectorAll('.score-fill').forEach(el=>{el.style.width=el.dataset.w});
+  },200);
+}
+
+function reset(){
+  diagData={};
+  ['nickname','byear','fullname','email'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.querySelectorAll('input[name="gender"]').forEach(r=>r.checked=false);
+  document.getElementById('priv').checked=false;
+  document.getElementById('bmonth').value='';
+  popDays();
+  showStep('s-input');
+}
+</script>
