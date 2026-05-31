@@ -1,131 +1,182 @@
-
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>軸 -JIKU- パーソナル診断</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
+:root{
+  --bg:#F7F3EE;--bg2:#EFE9E1;--bg3:#F2EDE6;
+  --text:#2E2820;--text-mid:#6B5F54;--text-light:#9E9188;
+  --accent:#B8956A;--accent-light:#D4B896;
+  --line:#DDD4C8;--white:#FDFAF7;
+  --error:#C0674A;--success:#06C755;
+  --serif:'Noto Serif JP','Yu Mincho',serif;
+  --sans:'Noto Sans JP','Hiragino Sans',sans-serif;
+}
 *{box-sizing:border-box;margin:0;padding:0}
-.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
-.page{padding:1.5rem 0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.9;-webkit-font-smoothing:antialiased;min-height:100vh}
+
+.page{max-width:520px;margin:0 auto;padding:1.5rem 1.25rem 4rem}
 .step{display:none}.step.active{display:block}
 
-.brand{text-align:center;padding:2rem 0 0.5rem}
-.brand-title{font-size:28px;font-weight:500;letter-spacing:0.18em;color:var(--color-text-primary);font-family:var(--font-serif)}
-.brand-sub{font-size:11px;letter-spacing:0.22em;color:var(--color-text-tertiary);margin-top:6px;text-transform:uppercase}
-.brand-desc{font-size:14px;color:var(--color-text-secondary);line-height:1.8;margin-top:16px;max-width:420px;margin-left:auto;margin-right:auto;text-align:center}
+/* BRAND */
+.brand{text-align:center;padding:2.5rem 0 1rem}
+.brand-en{font-size:11px;letter-spacing:0.28em;color:var(--accent);text-transform:uppercase;margin-bottom:10px}
+.brand-ja{font-family:var(--serif);font-size:32px;font-weight:400;letter-spacing:0.18em;color:var(--text)}
+.brand-line{width:32px;height:1px;background:var(--accent);margin:18px auto}
+.brand-desc{font-size:14px;color:var(--text-mid);line-height:1.9;text-align:center}
 
-.divider{width:32px;height:1px;background:var(--color-border-secondary);margin:20px auto}
+/* CARD */
+.card{background:var(--white);border:0.5px solid var(--line);border-radius:12px;padding:1.5rem;margin-bottom:12px}
 
-.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem 1.5rem;margin-bottom:12px}
-
-.flabel{display:block;font-size:12px;color:var(--color-text-tertiary);letter-spacing:0.1em;margin-bottom:6px;font-weight:500}
+/* FORM */
 .fgroup{margin-bottom:1.25rem}
+.flabel{display:block;font-size:12px;color:var(--text-mid);letter-spacing:0.1em;margin-bottom:7px;font-weight:400}
+.frow3{display:grid;grid-template-columns:2fr 1.2fr 1.2fr;gap:8px}
 .frow2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.frow3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+input[type=text],input[type=email],input[type=number],select{
+  width:100%;padding:13px 14px;background:var(--white);border:1px solid var(--line);
+  border-radius:8px;font-family:var(--sans);font-size:14px;font-weight:300;color:var(--text);
+  outline:none;appearance:none;-webkit-appearance:none;transition:border-color .2s,box-shadow .2s}
+input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(184,149,106,.1)}
+.radio-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.radio-lbl{display:flex;align-items:center;gap:9px;font-size:14px;color:var(--text-mid);cursor:pointer;
+  padding:12px 14px;border:1px solid var(--line);border-radius:8px;transition:border-color .2s,background .2s}
+.radio-lbl:has(input:checked){border-color:var(--accent);background:rgba(184,149,106,.06);color:var(--text)}
+.radio-lbl input{width:15px;height:15px;accent-color:var(--accent);flex-shrink:0}
+.errmsg{font-size:12px;color:var(--error);margin-top:6px;display:none}
 
-.btn-main{width:100%;padding:13px;font-size:14px;font-weight:500;background:var(--color-text-primary);color:var(--color-background-primary);border:none;border-radius:var(--border-radius-md);cursor:pointer;letter-spacing:0.08em;margin-top:4px}
-.btn-main:hover{opacity:0.82}
-.btn-line{width:100%;padding:13px;font-size:14px;font-weight:500;background:#06C755;color:#fff;border:none;border-radius:var(--border-radius-md);cursor:pointer;letter-spacing:0.06em;display:flex;align-items:center;justify-content:center;gap:8px}
-.btn-line:hover{opacity:0.88}
-.btn-session{width:100%;padding:13px;font-size:14px;font-weight:500;background:var(--color-text-primary);color:var(--color-background-primary);border:none;border-radius:var(--border-radius-md);cursor:pointer;letter-spacing:0.06em;margin-top:8px}
-.btn-session:hover{opacity:0.82}
-.btn-ghost{width:100%;padding:10px;font-size:13px;background:transparent;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);cursor:pointer;color:var(--color-text-secondary);margin-top:8px}
-.btn-ghost:hover{background:var(--color-background-secondary)}
+/* BUTTONS */
+.btn-main{width:100%;padding:15px;font-size:14px;font-weight:500;background:var(--text);color:var(--white);
+  border:none;border-radius:8px;cursor:pointer;letter-spacing:0.1em;transition:opacity .2s,transform .15s}
+.btn-main:hover{opacity:.84}.btn-main:active{transform:scale(.99)}
+.btn-line{width:100%;padding:15px;font-size:14px;font-weight:500;background:#06C755;color:#fff;
+  border:none;border-radius:8px;cursor:pointer;letter-spacing:0.06em;
+  display:flex;align-items:center;justify-content:center;gap:10px;transition:opacity .2s}
+.btn-line:hover{opacity:.88}
+.btn-session{width:100%;padding:15px;font-size:14px;font-weight:500;background:var(--text);color:var(--white);
+  border:none;border-radius:8px;cursor:pointer;letter-spacing:0.06em;margin-top:10px;transition:opacity .2s}
+.btn-session:hover{opacity:.84}
+.btn-ghost{width:100%;padding:11px;font-size:13px;background:transparent;
+  border:1px solid var(--line);border-radius:8px;cursor:pointer;color:var(--text-mid);margin-top:10px;transition:background .2s}
+.btn-ghost:hover{background:var(--bg2)}
 
-.errmsg{font-size:12px;color:var(--color-text-danger);margin-top:6px;display:none}
-
-.loading-wrap{text-align:center;padding:3rem 0}
-.loading-ring{width:40px;height:40px;border:1.5px solid var(--color-border-tertiary);border-top-color:var(--color-text-primary);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 20px}
+/* LOADING */
+.loading-wrap{text-align:center;padding:4rem 0}
+.loading-ring{width:44px;height:44px;border:1.5px solid var(--line);border-top-color:var(--accent);
+  border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 20px}
 @keyframes spin{to{transform:rotate(360deg)}}
-.loading-txt{font-size:13px;color:var(--color-text-secondary);letter-spacing:0.1em}
-.loading-name{font-size:16px;font-weight:500;color:var(--color-text-primary);margin-bottom:8px;font-family:var(--font-serif)}
+.loading-name{font-family:var(--serif);font-size:17px;color:var(--text);margin-bottom:8px}
+.loading-msg{font-size:13px;color:var(--text-light);letter-spacing:0.1em}
 
-.type-hero{text-align:center;padding:1.5rem 0 1rem}
-.type-badge{display:inline-block;font-size:11px;letter-spacing:0.18em;color:var(--color-text-tertiary);background:var(--color-background-secondary);padding:5px 14px;border-radius:20px;margin-bottom:12px}
-.type-name{font-size:24px;font-weight:500;color:var(--color-text-primary);font-family:var(--font-serif);line-height:1.4;margin-bottom:8px}
-.type-catch{font-size:14px;color:var(--color-text-secondary);line-height:1.8}
+/* TYPE HERO */
+.type-hero{text-align:center;padding:2rem 0 1rem}
+.type-badge{display:inline-block;font-size:11px;letter-spacing:0.18em;color:var(--accent);
+  background:rgba(184,149,106,.1);padding:5px 16px;border-radius:20px;margin-bottom:14px}
+.type-name{font-family:var(--serif);font-size:26px;font-weight:400;color:var(--text);line-height:1.5;margin-bottom:10px}
+.type-catch{font-size:14px;color:var(--text-mid);line-height:1.9}
 
+/* PILLARS */
 .pillar-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:1rem 0}
-.pillar{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 6px;text-align:center;border:0.5px solid var(--color-border-tertiary)}
-.p-name{font-size:10px;color:var(--color-text-tertiary);margin-bottom:6px;letter-spacing:0.1em}
-.p-kan{font-size:20px;font-weight:500;color:var(--color-text-primary);font-family:var(--font-serif);line-height:1.2}
-.p-shi{font-size:16px;color:var(--color-text-secondary);font-family:var(--font-serif)}
-.p-hidden{color:var(--color-text-tertiary);font-size:12px;padding-top:8px}
+.pillar{background:var(--bg2);border:0.5px solid var(--line);border-radius:8px;padding:12px 6px;text-align:center}
+.p-name{font-size:10px;color:var(--text-light);margin-bottom:7px;letter-spacing:0.1em}
+.p-kan{font-family:var(--serif);font-size:22px;font-weight:400;color:var(--text);line-height:1.2}
+.p-shi{font-family:var(--serif);font-size:17px;color:var(--text-mid)}
+.p-hidden{font-size:11px;color:var(--text-light);padding-top:10px}
 
-.preview-item{padding:14px 0;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;gap:12px;align-items:flex-start}
-.preview-item:last-child{border-bottom:none}
-.pi-icon{width:30px;height:30px;border-radius:50%;background:var(--color-background-secondary);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px}
-.pi-label{font-size:11px;color:var(--color-text-tertiary);margin-bottom:3px;letter-spacing:0.08em}
-.pi-val{font-size:14px;font-weight:500;color:var(--color-text-primary)}
-.pi-desc{font-size:13px;color:var(--color-text-secondary);line-height:1.7;margin-top:2px}
+/* PREVIEW ITEMS */
+.prev-item{padding:15px 0;border-bottom:0.5px solid var(--line);display:flex;gap:12px;align-items:flex-start}
+.prev-item:last-child{border-bottom:none}
+.pi-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:8px}
+.pi-lbl{font-size:11px;color:var(--text-light);letter-spacing:0.08em;margin-bottom:3px}
+.pi-val{font-size:15px;font-weight:500;color:var(--text);margin-bottom:3px}
+.pi-desc{font-size:13px;color:var(--text-mid);line-height:1.8}
 
-.lock-wall{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.5rem;text-align:center;margin:1rem 0}
-.lock-icon{font-size:22px;color:var(--color-text-tertiary);margin-bottom:10px}
-.lock-title{font-size:15px;font-weight:500;color:var(--color-text-primary);margin-bottom:6px}
-.lock-desc{font-size:13px;color:var(--color-text-secondary);line-height:1.8;margin-bottom:16px}
-.lock-items{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:16px;text-align:left}
-.lock-item{font-size:12px;color:var(--color-text-secondary);padding:8px 10px;background:var(--color-background-primary);border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);display:flex;gap:6px;align-items:center}
+/* LOCK WALL */
+.lock-wall{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:1.5rem;text-align:center;margin:1.25rem 0}
+.lock-title{font-family:var(--serif);font-size:16px;color:var(--text);margin-bottom:6px}
+.lock-desc{font-size:13px;color:var(--text-mid);line-height:1.8;margin-bottom:16px}
+.lock-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:18px;text-align:left}
+.lock-item{font-size:12px;color:var(--text-mid);padding:9px 11px;background:var(--white);
+  border-radius:7px;border:0.5px solid var(--line);display:flex;gap:7px;align-items:center}
+.lock-icon{color:var(--text-light);font-size:13px;flex-shrink:0}
 
-.full-section{margin-top:1rem}
-.sec-label{font-size:11px;letter-spacing:0.18em;color:var(--color-text-tertiary);text-transform:uppercase;margin-bottom:10px;margin-top:1.5rem}
+/* LINE FORM */
+.line-form{background:var(--bg2);border-radius:12px;padding:1.5rem;margin:1rem 0}
+.lf-title{font-family:var(--serif);font-size:17px;color:var(--text);margin-bottom:6px}
+.lf-desc{font-size:13px;color:var(--text-mid);line-height:1.8;margin-bottom:18px}
+.priv-row{display:flex;align-items:flex-start;gap:8px;margin:14px 0;font-size:12px;color:var(--text-mid);line-height:1.7;cursor:pointer}
+.priv-row input{width:15px;height:15px;flex-shrink:0;margin-top:2px;accent-color:var(--accent)}
 
-.score-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.score-name{font-size:13px;color:var(--color-text-secondary);width:80px;flex-shrink:0}
-.score-track{flex:1;height:5px;background:var(--color-background-secondary);border-radius:3px;overflow:hidden}
-.score-fill{height:100%;background:var(--color-text-primary);border-radius:3px;transition:width 1.2s ease}
-.score-num{font-size:12px;color:var(--color-text-tertiary);width:28px;text-align:right}
+/* FULL REPORT */
+.sec-lbl{font-size:11px;letter-spacing:0.2em;color:var(--text-light);text-transform:uppercase;margin:1.5rem 0 10px}
+.score-row{display:flex;align-items:center;gap:10px;margin-bottom:11px}
+.s-name{font-size:13px;color:var(--text-mid);width:78px;flex-shrink:0}
+.s-track{flex:1;height:5px;background:var(--bg2);border-radius:3px;overflow:hidden}
+.s-fill{height:100%;background:var(--accent);border-radius:3px;transition:width 1.2s ease}
+.s-num{font-size:12px;color:var(--text-light);width:26px;text-align:right}
 
-.phase-card{padding:14px 16px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);margin-bottom:8px}
-.phase-tag{display:inline-block;font-size:10px;letter-spacing:0.12em;padding:3px 9px;border-radius:20px;background:var(--color-background-secondary);color:var(--color-text-tertiary);margin-bottom:8px}
-.phase-title{font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px}
-.phase-desc{font-size:13px;color:var(--color-text-secondary);line-height:1.7}
+.phase-card{padding:15px 16px;border:0.5px solid var(--line);border-radius:10px;margin-bottom:8px;background:var(--white)}
+.ph-tag{display:inline-block;font-size:10px;letter-spacing:0.14em;padding:3px 10px;border-radius:20px;
+  background:var(--bg2);color:var(--text-light);margin-bottom:8px}
+.ph-title{font-size:14px;font-weight:500;color:var(--text);margin-bottom:4px}
+.ph-desc{font-size:13px;color:var(--text-mid);line-height:1.8}
 
 .partner-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.partner-c{padding:14px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);text-align:center}
-.partner-lbl{font-size:11px;color:var(--color-text-tertiary);margin-bottom:5px}
-.partner-val{font-size:13px;font-weight:500;color:var(--color-text-primary);line-height:1.5}
+.partner-c{padding:14px;border:0.5px solid var(--line);border-radius:10px;text-align:center;background:var(--white)}
+.pt-lbl{font-size:11px;color:var(--text-light);margin-bottom:5px}
+.pt-val{font-size:13px;font-weight:500;color:var(--text);line-height:1.6}
 
-.action-list{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:1rem 1.25rem}
-.action-item{display:flex;gap:10px;padding:7px 0;font-size:13px;color:var(--color-text-secondary);line-height:1.6;border-bottom:0.5px solid var(--color-border-tertiary)}
+.action-box{background:var(--bg2);border-radius:10px;padding:1rem 1.25rem}
+.action-item{display:flex;gap:10px;padding:8px 0;font-size:13px;color:var(--text-mid);
+  line-height:1.7;border-bottom:0.5px solid var(--line)}
 .action-item:last-child{border-bottom:none}
-.action-n{font-weight:500;color:var(--color-text-primary);flex-shrink:0;width:18px}
+.action-n{font-weight:500;color:var(--accent);flex-shrink:0;width:18px}
 
-.session-box{border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-lg);padding:1.25rem 1.5rem;margin-top:1.25rem;text-align:center}
-.session-title{font-size:16px;font-weight:500;color:var(--color-text-primary);font-family:var(--font-serif);margin-bottom:8px}
-.session-desc{font-size:13px;color:var(--color-text-secondary);line-height:1.8;margin-bottom:16px}
-.session-features{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:16px;text-align:left}
-.sf-item{font-size:12px;color:var(--color-text-secondary);display:flex;gap:6px;align-items:flex-start;line-height:1.5}
-.price-note{font-size:12px;color:var(--color-text-tertiary);margin-top:8px}
+/* SESSION CTA */
+.session-box{border:1px solid var(--line);border-radius:12px;padding:1.5rem;margin-top:1.5rem;text-align:center;background:var(--white)}
+.session-title{font-family:var(--serif);font-size:18px;color:var(--text);margin-bottom:8px;line-height:1.6}
+.session-desc{font-size:13px;color:var(--text-mid);line-height:1.9;margin-bottom:18px}
+.session-feats{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:18px;text-align:left}
+.sf{font-size:12px;color:var(--text-mid);display:flex;gap:6px;align-items:flex-start;line-height:1.5}
+.sf-check{color:var(--accent);flex-shrink:0;margin-top:1px}
+.price-note{font-size:12px;color:var(--text-light);margin-top:10px}
 
-.note-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px 14px;font-size:12px;color:var(--color-text-tertiary);line-height:1.7;margin-top:1rem;display:flex;gap:8px}
+/* NOTE */
+.note{background:var(--bg2);border-radius:8px;padding:12px 14px;font-size:12px;
+  color:var(--text-light);line-height:1.8;margin-top:1rem;display:flex;gap:8px}
+.note-icon{flex-shrink:0;margin-top:1px}
 
-.line-form{background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:1.5rem;margin:1rem 0}
-.lf-title{font-size:15px;font-weight:500;color:var(--color-text-primary);margin-bottom:6px}
-.lf-desc{font-size:13px;color:var(--color-text-secondary);line-height:1.8;margin-bottom:16px}
-.lf-input{margin-bottom:10px}
-.privacy-row{display:flex;align-items:flex-start;gap:8px;margin:12px 0;font-size:12px;color:var(--color-text-secondary);line-height:1.6}
-.privacy-row input{width:14px;height:14px;flex-shrink:0;margin-top:2px;accent-color:var(--color-text-primary)}
+/* DIVIDER */
+.div{width:32px;height:1px;background:var(--line);margin:1.25rem auto}
 </style>
-
-<h2 class="sr-only">軸 -JIKU- あなたの本質と使命を読み解く診断。生年月日を入力して気質タイプを算出、LINE登録で詳細レポートを受け取れます。</h2>
-
+</head>
+<body>
 <div class="page">
 
+<!-- ══ STEP 1: INPUT ══ -->
 <div id="s-input" class="step active">
   <div class="brand">
-    <div class="brand-title">軸 &nbsp;-JIKU-</div>
-    <div class="brand-sub">Your Core · Your Mission</div>
-    <div class="divider"></div>
+    <div class="brand-en">Your Core · Your Mission</div>
+    <div class="brand-ja">軸 -JIKU-</div>
+    <div class="brand-line"></div>
     <p class="brand-desc">生まれ持った命式から、あなたの本質と<br>パートナーシップの軸を読み解きます</p>
   </div>
-
-  <div class="divider"></div>
 
   <div class="card">
     <div class="fgroup">
       <label class="flabel">ニックネーム</label>
-      <input type="text" id="nickname" placeholder="例：はなこ、Yuki…">
+      <input type="text" id="nickname" placeholder="例：はなこ、Yuki">
     </div>
     <div class="fgroup">
       <label class="flabel">生年月日</label>
       <div class="frow3">
-        <input type="number" id="byear" placeholder="年 (例:1985)" min="1930" max="2005" style="font-size:13px">
+        <input type="number" id="byear" placeholder="年（例:1985）" min="1930" max="2005" style="font-size:13px">
         <select id="bmonth" style="font-size:13px">
           <option value="">月</option>
           <option value="1">1月</option><option value="2">2月</option><option value="3">3月</option>
@@ -138,60 +189,55 @@
     </div>
     <div class="fgroup">
       <label class="flabel">性別</label>
-      <div class="frow2">
-        <label style="display:flex;align-items:center;gap:8px;font-size:14px;color:var(--color-text-secondary);cursor:pointer;padding:10px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md)" id="g-f-lbl">
-          <input type="radio" name="gender" value="female" id="g-f" style="accent-color:var(--color-text-primary);width:15px;height:15px"> 女性
-        </label>
-        <label style="display:flex;align-items:center;gap:8px;font-size:14px;color:var(--color-text-secondary);cursor:pointer;padding:10px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md)" id="g-m-lbl">
-          <input type="radio" name="gender" value="male" id="g-m" style="accent-color:var(--color-text-primary);width:15px;height:15px"> 男性
-        </label>
+      <div class="radio-row">
+        <label class="radio-lbl"><input type="radio" name="gender" value="female"> 女性</label>
+        <label class="radio-lbl"><input type="radio" name="gender" value="male"> 男性</label>
       </div>
     </div>
     <p class="errmsg" id="err1">すべての項目を入力してください</p>
     <button class="btn-main" onclick="startDiag()">軸を読み解く →</button>
   </div>
 
-  <div class="note-box">
-    <i class="ti ti-lock" style="font-size:15px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>
-    <span>入力いただいた情報は診断目的のみに使用し、第三者への提供は行いません</span>
+  <div class="note">
+    <span class="note-icon">🔒</span>
+    <span>入力いただいた情報は診断目的のみに使用します。第三者への提供は行いません。</span>
   </div>
 </div>
 
+<!-- ══ STEP 2: LOADING ══ -->
 <div id="s-loading" class="step">
   <div class="loading-wrap">
     <div class="loading-ring"></div>
     <div class="loading-name" id="l-name"></div>
-    <div class="loading-txt" id="l-msg">命式を算出しています</div>
+    <div class="loading-msg" id="l-msg">命式を算出しています</div>
   </div>
 </div>
 
+<!-- ══ STEP 3: PREVIEW（一部公開）══ -->
 <div id="s-preview" class="step">
   <div class="type-hero">
-    <div class="type-badge" id="prev-elem-badge">五行タイプ</div>
-    <div class="type-name" id="prev-type-name"></div>
+    <div class="type-badge" id="prev-badge"></div>
+    <div class="type-name" id="prev-name"></div>
     <div class="type-catch" id="prev-catch"></div>
   </div>
-
-  <div class="divider"></div>
-
+  <div class="div"></div>
   <div class="card">
-    <div style="font-size:11px;letter-spacing:0.15em;color:var(--color-text-tertiary);margin-bottom:10px">命式</div>
+    <div style="font-size:11px;letter-spacing:0.15em;color:var(--text-light);margin-bottom:10px">命式</div>
     <div class="pillar-row" id="prev-pillars"></div>
   </div>
-
   <div class="card">
-    <div class="preview-item">
-      <div class="pi-icon"><i class="ti ti-droplet" aria-hidden="true"></i></div>
+    <div class="prev-item">
+      <div class="pi-dot"></div>
       <div>
-        <div class="pi-label">本質の気</div>
+        <div class="pi-lbl">本質の気（日干）</div>
         <div class="pi-val" id="prev-elem"></div>
         <div class="pi-desc" id="prev-elem-desc"></div>
       </div>
     </div>
-    <div class="preview-item">
-      <div class="pi-icon"><i class="ti ti-eye" aria-hidden="true"></i></div>
+    <div class="prev-item">
+      <div class="pi-dot"></div>
       <div>
-        <div class="pi-label">日支の特性</div>
+        <div class="pi-lbl">日支の特性</div>
         <div class="pi-val" id="prev-shi-title"></div>
         <div class="pi-desc" id="prev-shi-desc"></div>
       </div>
@@ -199,109 +245,104 @@
   </div>
 
   <div class="lock-wall">
-    <div class="lock-icon"><i class="ti ti-lock" aria-hidden="true"></i></div>
-    <div class="lock-title">詳細レポートはLINEで受け取れます</div>
-    <div class="lock-desc">以下の項目は、LINE登録後に全文を解放します</div>
-    <div class="lock-items">
-      <div class="lock-item"><i class="ti ti-lock" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i>パートナーシップ傾向</div>
-      <div class="lock-item"><i class="ti ti-lock" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i>気質スコア詳細</div>
-      <div class="lock-item"><i class="ti ti-lock" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i>今年のバイオリズム</div>
-      <div class="lock-item"><i class="ti ti-lock" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i>相性の良い相手像</div>
+    <div class="lock-title">詳細レポートをLINEで受け取る</div>
+    <div class="lock-desc">以下の項目はLINE登録後に全文解放されます</div>
+    <div class="lock-grid">
+      <div class="lock-item"><span class="lock-icon">🔒</span>パートナーシップ傾向</div>
+      <div class="lock-item"><span class="lock-icon">🔒</span>気質スコア詳細</div>
+      <div class="lock-item"><span class="lock-icon">🔒</span>今年のバイオリズム</div>
+      <div class="lock-item"><span class="lock-icon">🔒</span>相性の良い相手像</div>
     </div>
     <button class="btn-line" onclick="goLine()">
-      <span style="font-size:16px;font-weight:700">L</span>
+      <span style="font-size:18px;font-weight:700;line-height:1">L</span>
       <span>LINEで続きを受け取る（無料）</span>
     </button>
   </div>
-
   <button class="btn-ghost" onclick="reset()">← 最初からやり直す</button>
 </div>
 
-<div id="s-line" class="step">
-  <div class="brand" style="padding-bottom:0">
-    <div class="brand-title" style="font-size:20px">もう少しで完成です</div>
-    <div class="divider"></div>
-  </div>
-
+<!-- ══ STEP 4: フォーム＋LINE ══ -->
 <div id="s-line" class="step">
   <div class="brand" style="padding:1.5rem 0 0.5rem">
     <div class="brand-ja" style="font-size:20px">詳細レポートを受け取る</div>
     <div class="brand-line"></div>
   </div>
   <div class="line-form">
-    <div class="lf-title">メールアドレスを登録する</div>
-    <div class="lf-desc">送信後、LINEで詳細レポートをお届けします</div>
-
+    <div class="lf-title">① メールアドレスを登録する</div>
+    <div class="lf-desc">フォームに入力して送信してください</div>
     <iframe
       src="https://docs.google.com/forms/d/e/1FAIpQLScij7wP1ugc28x9YkamL6WlvTyYRKiY8FVc3Lupp4zcl46Y3g/viewform?embedded=true"
       width="100%"
-      height="520"
+      height="480"
       frameborder="0"
       marginheight="0"
       marginwidth="0"
-      style="border:none;">
+      style="border:none;margin-bottom:8px;">
       読み込んでいます…
     </iframe>
-
-    <div style="text-align:center; margin-top:20px;">
-      <div style="font-size:13px;color:#6B5F54;margin-bottom:14px;">
-        フォーム送信後、こちらからLINE登録してください
-      </div>
-      <a href="https://line.me/R/ti/p/@931gjwmg" target="_blank" class="btn-line"
-        style="display:flex;align-items:center;justify-content:center;gap:10px;padding:15px;background:#06C755;color:#fff;border-radius:8px;text-decoration:none;font-size:14px;">
-        <span style="font-size:18px;font-weight:700">L</span>
-        <span>LINEで詳細レポートを受け取る</span>
-      </a>
-    </div>
+  </div>
+  <div style="background:#f2ede6;border-radius:10px;padding:1.25rem;margin-bottom:12px;text-align:center;">
+    <div class="lf-title" style="margin-bottom:6px;">② LINEで詳細レポートを受け取る</div>
+    <div class="lf-desc" style="margin-bottom:16px;">フォーム送信後、LINEに登録すると詳細レポートをお届けします</div>
+    <a href="https://line.me/R/ti/p/@931gjwmg" target="_blank"
+      style="display:flex;align-items:center;justify-content:center;gap:10px;padding:15px;background:#06C755;color:#fff;border-radius:8px;text-decoration:none;font-size:14px;font-weight:500;letter-spacing:0.06em;">
+      <span style="font-size:18px;font-weight:700;line-height:1">L</span>
+      <span>LINEで詳細レポートを受け取る</span>
+    </a>
   </div>
   <button class="btn-ghost" onclick="showStep('s-preview')">← 診断結果に戻る</button>
 </div>
 
+<!-- ══ STEP 5: FULL REPORT ══ -->
 <div id="s-full" class="step">
-  <div class="type-hero" style="padding-top:0.5rem">
+  <div class="type-hero" style="padding-top:1rem">
     <div class="type-badge" id="full-badge">詳細レポート</div>
     <div class="type-name" id="full-type"></div>
     <div class="type-catch" id="full-catch"></div>
   </div>
+  <div class="div"></div>
 
-  <div class="divider"></div>
+  <div class="sec-lbl">気質スコア</div>
+  <div class="card" id="scores-wrap" style="padding-bottom:0.75rem"></div>
 
-  <div class="full-section">
-    <div class="sec-label">気質スコア</div>
-    <div class="card" style="padding-bottom:0.75rem">
-      <div id="scores-wrap"></div>
+  <div class="sec-lbl">パートナーシップ傾向</div>
+  <div class="card" id="partner-trend"></div>
+
+  <div class="sec-lbl">バイオリズム — 現在のフェーズ</div>
+  <div id="phases-wrap"></div>
+
+  <div class="sec-lbl">相性の良い相手像</div>
+  <div class="partner-grid" id="partner-grid"></div>
+
+  <div class="sec-lbl">今年の行動指針</div>
+  <div class="action-box" id="actions-wrap"></div>
+
+  <div class="session-box">
+    <div class="session-title">あなたの命式をもとに、<br>1対1で深掘りする</div>
+    <div class="session-desc">診断では読み切れない「本質」と「これからの方向性」を、専任カウンセラーとのセッションで一緒に解き明かします</div>
+    <div class="session-feats">
+      <div class="sf"><span class="sf-check">✓</span>命式の詳細解説（格局・用神）</div>
+      <div class="sf"><span class="sf-check">✓</span>恋愛・婚活パターンの深掘り</div>
+      <div class="sf"><span class="sf-check">✓</span>今後1〜3年の運気マップ</div>
+      <div class="sf"><span class="sf-check">✓</span>パートナー選定の具体的基準</div>
     </div>
-
-    <div class="sec-label">パートナーシップ傾向</div>
-    <div class="card" id="partner-trend"></div>
-
-    <div class="sec-label">バイオリズム — 現在のフェーズ</div>
-    <div id="phases-wrap"></div>
-
-    <div class="sec-label">相性の良い相手像</div>
-    <div class="partner-grid" id="partner-grid"></div>
-
-    <div class="sec-label">今年の行動指針</div>
-    <div class="action-list" id="actions-wrap"></div>
-
-    <div class="session-box">
-      <div class="session-title">あなたの命式をもとに、<br>1対1で深掘りする</div>
-      <div class="session-desc">診断では読み切れない「本質」と「これからの方向性」を、専任カウンセラーとのセッションで一緒に解き明かします</div>
-      <div class="session-features">
-        <div class="sf-item"><i class="ti ti-check" style="font-size:14px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>命式の詳細解説（格局・用神）</div>
-        <div class="sf-item"><i class="ti ti-check" style="font-size:14px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>恋愛・婚活パターンの深掘り</div>
-        <div class="sf-item"><i class="ti ti-check" style="font-size:14px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>今後1〜3年の運気マップ</div>
-        <div class="sf-item"><i class="ti ti-check" style="font-size:14px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>パートナー選定の具体的基準</div>
-      </div>
-      <button class="btn-session" onclick="sendPrompt('有料セッションについて詳しく教えてください')">セッションに申し込む ↗</button>
-      <div class="price-note">初回セッション 90分 ／ 完全個別対応</div>
-    </div>
+    <button class="btn-session" onclick="window.open('https://otonaclass.wordpress.com/%e5%80%8b%e5%88%a5%e3%82%bb%e3%83%83%e3%82%b7%e3%83%a7%e3%83%b3/','_blank')">
+      個別セッションに申し込む ↗
+    </button>
+    <div class="price-note">初回セッション 90分 ／ 完全個別対応</div>
   </div>
 
-  <button class="btn-ghost" onclick="reset()">← もう一度診断する</button>
+  <div style="margin-top:1rem;text-align:center">
+    <button class="btn-line" onclick="window.open('https://line.me/R/ti/p/@931gjwmg','_blank')" style="max-width:320px;margin:0 auto">
+      <span style="font-size:18px;font-weight:700;line-height:1">L</span>
+      <span>公式LINEに登録する</span>
+    </button>
+  </div>
+
+  <button class="btn-ghost" onclick="reset()" style="margin-top:12px">← もう一度診断する</button>
 </div>
 
-</div>
+</div><!-- /page -->
 
 <script>
 const KAN=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
@@ -347,10 +388,10 @@ const SHI_T={
 
 const PARTNER_TREND={
   '木':'自立しながらも深く寄り添える関係を求めます。相手の成長を応援し、一緒に高め合えるパートナーシップが理想。表面的な条件より「一緒にいて伸びられるか」を重視します。',
-  '火':'感情の共鳴を大切にします。情熱的に愛し、相手にも同じ熱量を求める傾向があります。安心して感情を出し合える、率直な関係が最も輝けます。',
-  '土':'安定と誠実さを軸に関係を築きます。急がず、じっくりと信頼を積み上げるプロセスを大切にします。「変わらずにいてくれる」安心感を何より重視します。',
-  '金':'妥協なく本物を求めます。表面的な関係には満足できず、価値観や美意識が合う相手との深い繋がりを求めます。自分の軸を大切にしながら関係を育てます。',
-  '水':'直感と洞察で相手の本質を見抜きます。言葉より空気感で繋がれる関係を好み、知的に刺激し合えるパートナーシップが理想です。'
+  '火':'感情の共鳴を大切にします。情熱的に愛し、安心して感情を出し合える、率直な関係が最も輝けます。',
+  '土':'安定と誠実さを軸に関係を築きます。じっくりと信頼を積み上げるプロセスを大切にし、「変わらずにいてくれる」安心感を重視します。',
+  '金':'妥協なく本物を求めます。価値観や美意識が合う相手との深い繋がりを求め、自分の軸を大切にしながら関係を育てます。',
+  '水':'直感と洞察で相手の本質を見抜きます。知的に刺激し合えるパートナーシップが理想で、言葉より空気感で繋がれる関係を好みます。'
 };
 
 function calcKan(y,m,d){const b=new Date(2000,0,1),t=new Date(y,m-1,d),diff=Math.floor((t-b)/86400000);return((diff%10)+10)%10}
@@ -373,12 +414,9 @@ document.getElementById('bmonth').addEventListener('change',popDays);
 document.getElementById('byear').addEventListener('change',popDays);
 popDays();
 
-let diagData={};
+let D={};
 
-function showStep(id){
-  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
+function showStep(id){document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
 
 function startDiag(){
   const nick=document.getElementById('nickname').value.trim();
@@ -389,55 +427,33 @@ function startDiag(){
   if(!nick||!y||!m||!d||!g||y<1930||y>2005){document.getElementById('err1').style.display='block';return;}
   document.getElementById('err1').style.display='none';
 
-  const yk=getYK(y),ys=getYS(y);
-  const mk=getMK(y,m),ms=getMS(m);
-  const dk=calcKan(y,m,d),ds=calcShi(y,m,d);
+  const yk=getYK(y),ys=getYS(y),mk=getMK(y,m),ms=getMS(m),dk=calcKan(y,m,d),ds=calcShi(y,m,d);
   const elem=KAN_E[dk],yin=KAN_Y[dk];
-  const typeKey=elem+yin;
-  const type=TYPES[typeKey]||{name:elem+'の気質',catch:ELEM_DESC[elem]};
+  const type=TYPES[elem+yin]||{name:elem+'の気質',catch:ELEM_DESC[elem]};
   const shiT=SHI_T[SHI[ds]];
   const partnerElem={'木':['火','土'],'火':['土','木'],'土':['金','火'],'金':['水','土'],'水':['木','金']}[elem];
-  const scores={
-    '自己表現力':Math.min(95,55+((dk+ds)%4)*10),
-    '共感力':Math.min(95,60+((yk+ys)%4)*9),
-    '安定志向':Math.min(95,50+((mk+ms)%4)*11),
-    '行動力':Math.min(95,45+((dk*2+ds)%5)*10),
-    '直感力':Math.min(95,52+((ys+ms)%5)*9)
-  };
-  diagData={nick,y,m,d,yk,ys,mk,ms,dk,ds,elem,yin,typeKey,type,shiT,partnerElem,scores,gender:g.value};
+  const scores={'自己表現力':Math.min(95,55+((dk+ds)%4)*10),'共感力':Math.min(95,60+((yk+ys)%4)*9),'安定志向':Math.min(95,50+((mk+ms)%4)*11),'行動力':Math.min(95,45+((dk*2+ds)%5)*10),'直感力':Math.min(95,52+((ys+ms)%5)*9)};
+  D={nick,y,m,d,yk,ys,mk,ms,dk,ds,elem,yin,type,shiT,partnerElem,scores,gender:g.value};
 
   showStep('s-loading');
   document.getElementById('l-name').textContent=nick+'さんの命式を算出しています';
   const msgs=['十干・十二支を配置しています','五行バランスを解析しています','パートナーシップ傾向を読み解いています','軸を照らしています'];
   let i=0;
-  const iv=setInterval(()=>{
-    i++;
-    if(i<msgs.length)document.getElementById('l-msg').textContent=msgs[i];
-    if(i>=msgs.length){clearInterval(iv);showPreview();}
-  },700);
+  const iv=setInterval(()=>{i++;if(i<msgs.length)document.getElementById('l-msg').textContent=msgs[i];if(i>=msgs.length){clearInterval(iv);showPreview();}},700);
 }
 
 function showPreview(){
-  const D=diagData;
-  document.getElementById('prev-elem-badge').textContent=D.elem+'の気質 — '+D.yin;
-  document.getElementById('prev-type-name').textContent=D.type.name;
+  document.getElementById('prev-badge').textContent=D.elem+'の気質 — '+D.yin;
+  document.getElementById('prev-name').textContent=D.type.name;
   document.getElementById('prev-catch').textContent=D.type.catch;
   document.getElementById('prev-elem').textContent=D.elem+'（'+KAN[D.dk]+'）— '+D.yin;
   document.getElementById('prev-elem-desc').textContent=ELEM_DESC[D.elem];
   document.getElementById('prev-shi-title').textContent=SHI[D.ds]+'（'+D.shiT[0]+'）';
   document.getElementById('prev-shi-desc').textContent=D.shiT[1];
-
-  const pillars=[
-    {name:'年柱',k:D.yk,s:D.ys},
-    {name:'月柱',k:D.mk,s:D.ms},
-    {name:'日柱',k:D.dk,s:D.ds},
-    {name:'時柱',hidden:true}
-  ];
+  const pillars=[{name:'年柱',k:D.yk,s:D.ys},{name:'月柱',k:D.mk,s:D.ms},{name:'日柱',k:D.dk,s:D.ds},{name:'時柱',hidden:true}];
   document.getElementById('prev-pillars').innerHTML=pillars.map(p=>p.hidden?
     `<div class="pillar"><div class="p-name">${p.name}</div><div class="p-hidden">不明</div></div>`:
-    `<div class="pillar"><div class="p-name">${p.name}</div><div class="p-kan">${KAN[p.k]}</div><div class="p-shi">${SHI[p.s]}</div></div>`
-  ).join('');
-
+    `<div class="pillar"><div class="p-name">${p.name}</div><div class="p-kan">${KAN[p.k]}</div><div class="p-shi">${SHI[p.s]}</div></div>`).join('');
   showStep('s-preview');
 }
 
@@ -447,68 +463,55 @@ function submitLine(){
   const name=document.getElementById('fullname').value.trim();
   const email=document.getElementById('email').value.trim();
   const priv=document.getElementById('priv').checked;
-  const emailOk=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  if(!name||!emailOk||!priv){document.getElementById('err2').style.display='block';return;}
+  if(!name||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||!priv){document.getElementById('err2').style.display='block';return;}
   document.getElementById('err2').style.display='none';
-  diagData.fullname=name;diagData.email=email;
+  D.fullname=name;D.email=email;
   showFull();
 }
 
 function showFull(){
-  const D=diagData;
   document.getElementById('full-badge').textContent=D.elem+'の気質 — 詳細レポート';
   document.getElementById('full-type').textContent=D.type.name;
   document.getElementById('full-catch').textContent=D.nick+'さんの軸が見えました';
 
   document.getElementById('scores-wrap').innerHTML=Object.entries(D.scores).map(([k,v])=>`
-    <div class="score-row">
-      <div class="score-name">${k}</div>
-      <div class="score-track"><div class="score-fill" style="width:0%" data-w="${v}%"></div></div>
-      <div class="score-num">${v}</div>
-    </div>`).join('');
+    <div class="score-row"><div class="s-name">${k}</div>
+    <div class="s-track"><div class="s-fill" style="width:0%" data-w="${v}%"></div></div>
+    <div class="s-num">${v}</div></div>`).join('');
 
   document.getElementById('partner-trend').innerHTML=`
-    <div class="preview-item" style="border:none;padding:0">
-      <div class="pi-icon"><i class="ti ti-heart" aria-hidden="true"></i></div>
-      <div>
-        <div class="pi-label">パートナーシップ傾向</div>
-        <div class="pi-desc" style="font-size:14px;line-height:1.9">${PARTNER_TREND[D.elem]}</div>
-      </div>
-    </div>`;
+    <div class="prev-item" style="border:none;padding:0">
+      <div class="pi-dot"></div>
+      <div><div class="pi-lbl">パートナーシップ傾向</div>
+      <div class="pi-desc" style="font-size:14px;line-height:1.9">${PARTNER_TREND[D.elem]}</div></div></div>`;
 
   const phases=[
-    {tag:'大運フェーズ',title:D.elem==='水'||D.elem==='金'?'深化期 — 内なる成熟の時':'充実期 — 実りを迎える時',desc:'現在はあなたの本質が最も輝きやすいフェーズです。自己理解を深め、行動に移すことで縁が引き寄せられます。'},
+    {tag:'大運フェーズ',title:['水','金'].includes(D.elem)?'深化期 — 内なる成熟の時':'充実期 — 実りを迎える時',desc:'現在はあなたの本質が最も輝きやすいフェーズです。自己理解を深め、行動に移すことで縁が引き寄せられます。'},
     {tag:'2025年 流年',title:'関係性の再構築と深化',desc:'今年は既存のパターンを手放し、本質的な繋がりへと進化する年。出会いの数より自分の「軸」を整えることで、相応しい縁が動き始めます。'},
     {tag:'後半期（7〜12月）',title:'前進の好機 — 動くことで縁が開く',desc:'秋以降は行動に移す力が高まります。自分の気持ちを正直に表現し、一歩踏み出すことで関係が動き始めるタイミングです。'}
   ];
   document.getElementById('phases-wrap').innerHTML=phases.map(p=>`
-    <div class="phase-card">
-      <div class="phase-tag">${p.tag}</div>
-      <div class="phase-title">${p.title}</div>
-      <div class="phase-desc">${p.desc}</div>
-    </div>`).join('');
+    <div class="phase-card"><div class="ph-tag">${p.tag}</div>
+    <div class="ph-title">${p.title}</div>
+    <div class="ph-desc">${p.desc}</div></div>`).join('');
 
   const pShi=SHI[(D.ds+4)%12],pShi2=SHI[(D.ds+8)%12];
   document.getElementById('partner-grid').innerHTML=`
-    <div class="partner-c"><div class="partner-lbl">五行の相性</div><div class="partner-val">${D.partnerElem[0]}・${D.partnerElem[1]}気質の方</div></div>
-    <div class="partner-c"><div class="partner-lbl">地支の相合</div><div class="partner-val">${pShi}・${pShi2}年生まれ</div></div>`;
+    <div class="partner-c"><div class="pt-lbl">五行の相性</div><div class="pt-val">${D.partnerElem[0]}・${D.partnerElem[1]}気質の方</div></div>
+    <div class="partner-c"><div class="pt-lbl">地支の相合</div><div class="pt-val">${pShi}・${pShi2}年生まれ</div></div>`;
 
-  const actions=[
-    `${D.elem}の本質「${ELEM_DESC[D.elem].split('。')[0]}」を活かした自己表現を意識する`,
+  document.getElementById('actions-wrap').innerHTML=[
+    `${D.elem}の本質を活かした自己表現を意識する`,
     '恋愛パターンの言語化ワークに取り組み、繰り返してきた習慣を手放す',
     '今秋以降、直感で動ける準備を整えておく。縁は「整った人」のところに来る'
-  ];
-  document.getElementById('actions-wrap').innerHTML=actions.map((a,i)=>`
-    <div class="action-item"><div class="action-n">${i+1}</div><div>${a}</div></div>`).join('');
+  ].map((a,i)=>`<div class="action-item"><div class="action-n">${i+1}</div><div>${a}</div></div>`).join('');
 
   showStep('s-full');
-  setTimeout(()=>{
-    document.querySelectorAll('.score-fill').forEach(el=>{el.style.width=el.dataset.w});
-  },200);
+  setTimeout(()=>{document.querySelectorAll('.s-fill').forEach(el=>{el.style.width=el.dataset.w})},200);
 }
 
 function reset(){
-  diagData={};
+  D={};
   ['nickname','byear','fullname','email'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   document.querySelectorAll('input[name="gender"]').forEach(r=>r.checked=false);
   document.getElementById('priv').checked=false;
@@ -517,3 +520,5 @@ function reset(){
   showStep('s-input');
 }
 </script>
+</body>
+</html>
